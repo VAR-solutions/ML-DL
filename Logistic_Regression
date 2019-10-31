@@ -6,6 +6,26 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def cost_function(self, theta, x, y):
+    m = x.shape[0]
+    total_cost = -(1 / m) * np.sum(y * np.log(probability(theta, x)) + (1 - y) * np.log(1 - probability(theta, x)))
+    return total_cost
+
+def gradient(self, theta, x, y):
+
+    m = x.shape[0]
+    return (1 / m) * np.dot(x.T, sigmoid(net_input(theta, x)) - y)
+
+def fit(self, x, y, theta):
+    opt_weights = fmin_tnc(func=cost_function, x0=theta, fprime=gradient,args=(x, y.flatten()))
+    return opt_weights[0]
+    
+
+
 def load_data(path, header):
   
   marks_df = pd.read_csv(path, header=header)
@@ -32,3 +52,5 @@ plt.scatter(admitted.iloc[:, 0], admitted.iloc[:, 1], s=10, label='Admitted')
 plt.scatter(not_admitted.iloc[:, 0], not_admitted.iloc[:, 1], s=10, label='Not Admitted')
 plt.legend()
 plt.show()
+
+
