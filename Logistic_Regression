@@ -84,3 +84,19 @@ plt.xlabel('Marks in 1st Exam')
 plt.ylabel('Marks in 2nd Exam')
 plt.legend()
 plt.show()
+
+
+## Find the accuracy of model ##
+
+def predict(self, x):
+    theta = parameters[:, np.newaxis]
+    return probability(theta, x)
+def accuracy(self, x, actual_classes, probab_threshold=0.5):
+    predicted_classes = (predict(x) >= 
+                         probab_threshold).astype(int)
+    predicted_classes = predicted_classes.flatten()
+    accuracy = np.mean(predicted_classes == actual_classes)
+    return accuracy * 100
+    
+accuracy(X, y.flatten())
+## 89% ##
