@@ -10,6 +10,14 @@ import pandas as pd
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+def net_input(theta, x):
+    # Computes the weighted sum of inputs
+    return np.dot(x, theta)
+
+def probability(theta, x):
+    # Returns the probability after passing through sigmoid
+    return sigmoid(net_input(theta, x))
+
 def cost_function(self, theta, x, y):
     m = x.shape[0]
     total_cost = -(1 / m) * np.sum(y * np.log(probability(theta, x)) + (1 - y) * np.log(1 - probability(theta, x)))
@@ -38,17 +46,6 @@ data = load_data("data/marks.txt", None)
 # X = feature values
 X = data.iloc[:, :-1]
 
-
-#### Create the data ########
-
-X = np.c_[np.ones((X.shape[0], 1)), X]
-y = y[:, np.newaxis]
-theta = np.zeros((X.shape[1], 1))
-
-
-parameters = fit(X, y, theta)
-## [-25.16131856 0.20623159 0.20147149] ##
-
 # y = target values
 y = data.iloc[:, -1]
 
@@ -65,3 +62,25 @@ plt.legend()
 plt.show()
 
 
+
+#### Create the data ########
+
+X = np.c_[np.ones((X.shape[0], 1)), X]
+y = y[:, np.newaxis]
+theta = np.zeros((X.shape[1], 1))
+
+## Find the parameters ## 
+parameters = fit(X, y, theta)
+## [-25.16131856 0.20623159 0.20147149] ##
+
+
+## Plotting the decision boundary ##
+
+x_values = [np.min(X[:, 1] - 5), np.max(X[:, 2] + 5)]
+y_values = - (parameters[0] + np.dot(parameters[1], x_values)) / parameters[2]
+
+plt.plot(x_values, y_values, label='Decision Boundary')
+plt.xlabel('Marks in 1st Exam')
+plt.ylabel('Marks in 2nd Exam')
+plt.legend()
+plt.show()
